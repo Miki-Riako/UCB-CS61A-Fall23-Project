@@ -1,4 +1,4 @@
-# UBC CS61A Fall23 Project
+# UCB CS61A Fall23 Project
 
 I've been struggling with CS61A projects long before I could use git.
 
