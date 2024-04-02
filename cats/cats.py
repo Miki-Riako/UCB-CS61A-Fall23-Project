@@ -207,29 +207,52 @@ def minimum_mewtations(typed, source, limit):
     >>> minimum_mewtations("ckiteus", "kittens", big_limit) # ckiteus -> kiteus -> kitteus -> kittens
     3
     """
-    assert False, 'Remove this line'
-    if ___________:  # Base cases should go here, you may add more base cases as needed.
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    if typed == source:
+        return 0
+    if limit < 0:
+        return limit + 1
+    if not typed:
+        return len(source)
+    if not source:
+        return len(typed)
     # Recursive cases should go below here
-    if ___________:  # Feel free to remove or add additional cases
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+    if typed[0] == source[0]:
+        return minimum_mewtations(typed[1:], source[1:], limit)
     else:
-        add = ...  # Fill in these lines
-        remove = ...
-        substitute = ...
-        # BEGIN
-        "*** YOUR CODE HERE ***"
-        # END
+        add = 1 + minimum_mewtations(typed, source[1:], limit - 1)
+        remove = 1 + minimum_mewtations(typed[1:], source, limit - 1)
+        substitute = 1 + minimum_mewtations(typed[1:], source[1:], limit - 1)
+        return min(add, remove, substitute)
 
 
 def final_diff(typed, source, limit):
     """A diff function that takes in a string TYPED, a string SOURCE, and a number LIMIT.
     If you implement this function, it will be used."""
-    assert False, 'Remove this line to use your final_diff function.'
+    # assert False, 'Remove this line to use your final_diff function.'
+    if typed == source:
+        return 0
+    if limit < 0:
+        return limit + 1
+    if not typed:
+        return len(source)
+    if not source:
+        return len(typed)
+    if typed[0] == source[0]:
+        return final_diff(typed[1:], source[1:], limit)
+    else:
+        if typed[0].lower == source[0].lower:
+            return 1 + final_diff(typed[1:], source[1:], limit - 1)
+        if len(typed) > 1 and typed[0] == typed[1]:
+            return 1 + final_diff(typed[1:], source, limit - 1)
+        add = 1 + final_diff(typed, source[1:], limit - 1)
+        remove = 1 + final_diff(typed[1:], source, limit - 1)
+        substitute = 1 + final_diff(typed[1:], source[1:], limit - 1)
+        swap = float('inf')
+        if len(typed) > 1 and len(source) > 1 and typed[0] == source[1] and typed[1] == source[0]:
+            swap = 1 + final_diff(typed[2:], source[2:], limit - 1)
+        return min(add, remove, substitute, swap)
+    # There are maybe some errors in this test
+
 
 
 FINAL_DIFF_LIMIT = 6  # REPLACE THIS WITH YOUR LIMIT
