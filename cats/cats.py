@@ -286,9 +286,17 @@ def report_progress(typed, source, user_id, upload):
     ID: 3 Progress: 0.2
     0.2
     """
-    # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 8
+    correct = 0
+
+    for typed_word, source_word in zip(typed, source):
+        if typed_word == source_word:
+            correct += 1
+        else:
+            break
+    
+    progress = correct / len(source)
+    upload({'id': user_id, 'progress': progress})
+    return progress
 
 
 def time_per_word(words, timestamps_per_player):
@@ -308,9 +316,14 @@ def time_per_word(words, timestamps_per_player):
     >>> get_all_times(match)
     [[6, 3, 6, 2], [10, 6, 1, 2]]
     """
-    # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 9
+    times = []
+    for timestamps in timestamps_per_player:
+        player_times = []
+        for i in range(1, len(timestamps)):
+            time_diff = timestamps[i] - timestamps[i - 1]
+            player_times.append(time_diff)
+        times.append(player_times)
+    return match(words, times)
 
 
 def fastest_words(match):
@@ -332,9 +345,19 @@ def fastest_words(match):
                            )  # contains an *index* for each player
     # contains an *index* for each word
     word_indices = range(len(get_all_words(match)))
-    # BEGIN PROBLEM 10
-    "*** YOUR CODE HERE ***"
-    # END PROBLEM 10
+    
+    result = [[] for _ in player_indices]
+    for i in word_indices:
+        fastest_time = float('inf')
+        winner = 0
+        
+        for j in player_indices:
+            time_taken = time(match, j, i)
+            if time_taken < fastest_time:
+                fastest_time = time_taken
+                winner = j
+        result[winner].append(get_word(match, i))
+    return result
 
 
 def match(words, times):
