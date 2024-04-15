@@ -773,3 +773,5 @@ class AssaultPlan(dict):
     def all_bees(self):
         """Place all Bees in the beehive and return the list of Bees."""
         return [bee for wave in self.values() for bee in wave]
+# test whether the git works or not
+# My git nearly usually failed to do something
